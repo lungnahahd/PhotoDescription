@@ -8,7 +8,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_home">사진 관리하기</string>
+    <string name="menu_gallery">스토리 생성하기</string>
+    <string name="menu_slideshow">스토리 불러오기</string>
 </resources>
