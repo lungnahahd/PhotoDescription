@@ -1,8 +1,21 @@
 package com.evanandroid.apps.photodescription
 
+import android.Manifest
+import android.app.Activity
+import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Camera
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
+import android.util.Log
 import android.view.Menu
+import android.widget.Button
 import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -15,11 +28,20 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 import java.io.File
+import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.*
 
 class Main : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,20 +49,18 @@ class Main : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener {
             view ->
             Toast.makeText(applicationContext,"폴더 이름 :" + getSaveFolder().absolutePath,Toast.LENGTH_SHORT).show()
-
-             /*   view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()*/
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
+
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
@@ -48,15 +68,6 @@ class Main : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-    }
-
-    fun getSaveFolder() : File{
-        var folderName : String = "myFolder"
-        var dir : File = File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.pathSeparator + folderName)
-        if(!dir.exists()){
-            dir.mkdirs()
-        }
-        return dir
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -69,4 +80,26 @@ class Main : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+
+
+
+
+
+
+
+
+
+    fun getSaveFolder() : File{
+        var folderName : String = "myFolder"
+        var dir : File = File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.pathSeparator + folderName)
+        if(!dir.exists()){
+            dir.mkdirs()
+        }
+        return dir
+    }
+
+
+
+
 }
