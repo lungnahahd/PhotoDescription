@@ -29,7 +29,9 @@ import com.evanandroid.apps.photodescription.R
 import kotlinx.android.synthetic.main.fragment_home.*
 
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -88,6 +90,7 @@ class HomeFragment : Fragment() {
         val gal : Button = root.findViewById(R.id.buttonGallery)
         cam.setOnClickListener {
             openCammera()
+
         }
         gal.setOnClickListener {
             openGallery()
@@ -161,6 +164,10 @@ class HomeFragment : Fragment() {
                         imagePreview.setImageURI(uri)
                     }
                 }
+                FLAG_REQ_STORAGE->{
+                    val uri = data?.data
+                    imagePreview.setImageURI(uri)
+                }
             }
         }
     }
@@ -214,8 +221,8 @@ class HomeFragment : Fragment() {
     fun openCammera() {
         if (checkPermission(CAMERA_PERMISSION, FLAG_PERM_CAMERA)) {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivity(intent)
-            //getActivity()?.startActivityForResult(intent,FLAG_REQ_CAMERA)
+            //startActivity(intent)
+            startActivityForResult(intent,FLAG_REQ_CAMERA)
         }
     }
 
