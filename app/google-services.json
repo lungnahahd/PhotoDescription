@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "13925168082",
+    "firebase_url": "https://lungnahastory.firebaseio.com",
+    "project_id": "lungnahastory",
+    "storage_bucket": "lungnahastory.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13925168082:android:6ebabb4c128049e209ce0b",
+        "android_client_info": {
+          "package_name": "com.evanandroid.apps.photodescription"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "13925168082-1272ee34tufubndct87m8fpm7vdhg48e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.evanandroid.apps.photodescription",
+            "certificate_hash": "55ef8bcb2712dae39ed995b6c73c35bad0af94e0"
+          }
+        },
+        {
+          "client_id": "13925168082-qeeme3fq8738ojeaf6vb99a5582r3b2g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCtrGQFWOdQzV0jYp3uZ0OHpr0dKHWffk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "13925168082-qeeme3fq8738ojeaf6vb99a5582r3b2g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
