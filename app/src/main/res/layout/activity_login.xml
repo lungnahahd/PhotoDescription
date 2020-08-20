@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Login">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/lungnaha"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="LUNGNAHA STORY"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:textStyle="bold"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="*아이디"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:paddingLeft="10sp"
+        android:paddingTop="10sp"
+        android:layout_marginTop="50dp"/>
+    <EditText
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="E-mail을 입력해주세요."/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="*비밀번호"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:paddingLeft="10sp"
+        android:paddingTop="10sp"
+        android:layout_marginTop="50dp"/>
+    <EditText
+        android:id="@+id/classifiednum"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="비밀번호를 입력해 주세요."/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center"
+        android:text="회원가입 or 로그인하기"/>
+
+</LinearLayout>

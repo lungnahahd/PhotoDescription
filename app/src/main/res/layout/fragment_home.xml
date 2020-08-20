@@ -8,10 +8,12 @@
     tools:context=".ui.home.HomeFragment">
 
     <ImageView
+        android:layout_marginTop="50dp"
         android:id="@+id/imagePreview"
-    android:layout_width="match_parent"
-    android:layout_height="407dp"
-    android:src="@drawable/callfile" />
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_gravity="center"
+        android:src="@drawable/callfile" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -33,7 +35,6 @@
             android:text="불러오기"
             android:textSize="20sp" />
     </LinearLayout>
-
 
 
 </LinearLayout>
