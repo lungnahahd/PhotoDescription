@@ -49,7 +49,7 @@ class Main : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1)
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener {
             view ->

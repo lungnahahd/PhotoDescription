@@ -34,6 +34,7 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.io.FileOutputStream
@@ -49,6 +50,7 @@ import java.util.jar.Manifest
 import com.evanandroid.apps.photodescription.Main as Main1
 
 class HomeFragment : Fragment() {
+    var storage : FirebaseStorage? = null
     val FLAG_REQ_STORAGE = 102
     val FLAG_REQ_CAMERA = 101
     val FLAG_PERM_STORAGE = 99
@@ -58,6 +60,7 @@ class HomeFragment : Fragment() {
     val CAMERA_PERMISSION = arrayOf(permission.CAMERA)
     var cbut: Button? = null
     var gbut: Button? = null
+    var photoUri : Uri? = null
     private lateinit var homeViewModel: HomeViewModel
 
 
@@ -68,6 +71,7 @@ class HomeFragment : Fragment() {
 
 
     ): View? {
+        storage = FirebaseStorage.getInstance()
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val cambutton = view.findViewById<Button>(R.id.buttonCammera)
         cbut = cambutton
@@ -95,11 +99,19 @@ class HomeFragment : Fragment() {
         gal.setOnClickListener {
             openGallery()
         }
-        /* val textView: TextView = root.findViewById(R.id.text_home)
-         homeViewModel.text.observe(viewLifecycleOwner, Observer {
-             textView.text = it
-         })*/
+
+        uploadBut.setOnClickListener {
+            upLoad()
+        }
         return root
+    }
+
+    fun upLoad(){
+        newFileName()
+        var storageRef = storage?.reference?.child("imagestory")?.child(newFileName())
+        storageRef?.putFile(photoUri!!)?.addOnCanceledListener {
+            Toast.makeText(context,"스토리 생성에 성공했습니다.",Toast.LENGTH_LONG).show()
+        }
     }
 
     //권한 확인 함수
@@ -162,6 +174,7 @@ class HomeFragment : Fragment() {
                         //imagePreview.setImageBitmap(bitmap)
                         val uri = saveImageFile(newFileName(), "image/jpg", bitmap)
                         imagePreview.setImageURI(uri)
+                        photoUri = uri
                     }
                 }
                 FLAG_REQ_STORAGE->{
