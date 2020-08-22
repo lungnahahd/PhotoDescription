@@ -46,6 +46,7 @@ import java.nio.channels.Pipe.open
 import java.nio.channels.ServerSocketChannel.open
 import java.nio.channels.SocketChannel.open
 import java.text.SimpleDateFormat
+import java.util.*
 import java.util.jar.Manifest
 import com.evanandroid.apps.photodescription.Main as Main1
 
@@ -61,6 +62,7 @@ class HomeFragment : Fragment() {
     var cbut: Button? = null
     var gbut: Button? = null
     var photoUri : Uri? = null
+
     private lateinit var homeViewModel: HomeViewModel
 
 
@@ -72,11 +74,13 @@ class HomeFragment : Fragment() {
 
     ): View? {
         storage = FirebaseStorage.getInstance()
+
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val cambutton = view.findViewById<Button>(R.id.buttonCammera)
         cbut = cambutton
         val readbutton = view.findViewById<Button>(R.id.buttonGallery)
         gbut = readbutton
+
 
         if (!checkPermission(STORAGE_PERMISSION, FLAG_PERM_STORAGE)) {
                 cambutton.setOnClickListener {
@@ -87,11 +91,14 @@ class HomeFragment : Fragment() {
                 }
         }
 
+
         homeViewModel =
             ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        
         val root = inflater.inflate(R.layout.fragment_home, container, false)
         val cam : Button = root.findViewById(R.id.buttonCammera)
         val gal : Button = root.findViewById(R.id.buttonGallery)
+        val upb : Button = root. findViewById(R.id.uploadBut)
         cam.setOnClickListener {
             openCammera()
 
@@ -100,15 +107,19 @@ class HomeFragment : Fragment() {
             openGallery()
         }
 
-        uploadBut.setOnClickListener {
+        upb.setOnClickListener {
             upLoad()
         }
         return root
     }
 
     fun upLoad(){
-        newFileName()
-        var storageRef = storage?.reference?.child("imagestory")?.child(newFileName())
+        //파일 이름의 중복 생성을 막는 부분
+        var timestamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        var imageFireName = "IMAGE" + timestamp + " .png"
+
+        var storageRef = storage?.reference?.child("imagestory")?.child(imageFireName)
+
         storageRef?.putFile(photoUri!!)?.addOnCanceledListener {
             Toast.makeText(context,"스토리 생성에 성공했습니다.",Toast.LENGTH_LONG).show()
         }
@@ -172,14 +183,15 @@ class HomeFragment : Fragment() {
                     if (data?.extras?.get("data") != null) {
                         val bitmap = data?.extras?.get("data") as Bitmap
                         //imagePreview.setImageBitmap(bitmap)
-                        val uri = saveImageFile(newFileName(), "image/jpg", bitmap)
-                        imagePreview.setImageURI(uri)
-                        photoUri = uri
+                        //val uri = saveImageFile(newFileName(), "image/jpg", bitmap)
+                        photoUri = saveImageFile(newFileName(), "image/jpg", bitmap)
+                        imagePreview.setImageURI(photoUri)
                     }
                 }
                 FLAG_REQ_STORAGE->{
-                    val uri = data?.data
-                    imagePreview.setImageURI(uri)
+                    //val uri = data?.data
+                    photoUri = data?.data
+                    imagePreview.setImageURI(photoUri)
                 }
             }
         }
