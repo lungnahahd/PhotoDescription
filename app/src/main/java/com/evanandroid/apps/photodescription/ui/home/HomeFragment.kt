@@ -33,8 +33,13 @@ import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.evanandroid.apps.photodescription.ui.gallery.ContentList
+import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.io.FileOutputStream
@@ -62,6 +67,8 @@ class HomeFragment : Fragment() {
     var cbut: Button? = null
     var gbut: Button? = null
     var photoUri : Uri? = null
+    var auth : FirebaseAuth? = null
+    var firestore : FirebaseFirestore? = null
 
     private lateinit var homeViewModel: HomeViewModel
 
@@ -74,7 +81,8 @@ class HomeFragment : Fragment() {
 
     ): View? {
         storage = FirebaseStorage.getInstance()
-
+        auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val cambutton = view.findViewById<Button>(R.id.buttonCammera)
         cbut = cambutton
@@ -109,6 +117,7 @@ class HomeFragment : Fragment() {
 
         upb.setOnClickListener {
             upLoad()
+
         }
         return root
     }
@@ -120,9 +129,47 @@ class HomeFragment : Fragment() {
 
         var storageRef = storage?.reference?.child("imagestory")?.child(imageFireName)
 
-        storageRef?.putFile(photoUri!!)?.addOnCanceledListener {
-            Toast.makeText(context,"스토리 생성에 성공했습니다.",Toast.LENGTH_LONG).show()
+        storageRef?.putFile(photoUri!!)?.continueWithTask { task: Task<UploadTask.TaskSnapshot>->
+            return@continueWithTask  storageRef.downloadUrl
+        }?.addOnSuccessListener { uri ->
+            var content = ContentList()
+            content.imageUrl = uri.toString()
+            //현재 uid를 받는 코드
+            content.uid = auth?.currentUser?.uid
+            //userId를 받아오는 코드
+            content.userId = auth?.currentUser?.email
+            //설명을 넣어주는 코드
+            content.explation = editDes.text.toString()
+            //시간을 받아오는 코드
+            content.time = System.currentTimeMillis()
+
+            firestore?.collection("images")?.document()?.set(content)
+
+            Activity().setResult(Activity.RESULT_OK)
+            Activity().finish()
         }
+
+
+
+
+        /*storageRef?.putFile(photoUri!!)?.addOnCanceledListener {
+            storageRef.downloadUrl.addOnSuccessListener { uri ->
+                //업로드 성공시 데이터를 넘겨 받는 코드
+                var content = ContentList()
+                content.imageUrl = uri.toString()
+                //현재 uid를 받는 코드
+                content.uid = auth?.currentUser?.uid
+                //userId를 받아오는 코드
+                content.userId = auth?.currentUser?.email
+                //설명을 넣어주는 코드
+                content.explation = editDes.text.toString()
+                //시간을 받아오는 코드
+                content.time = System.currentTimeMillis()
+
+                firestore?.collection("images")?.document()?.set(content)
+
+            }
+        }*/
     }
 
     //권한 확인 함수
