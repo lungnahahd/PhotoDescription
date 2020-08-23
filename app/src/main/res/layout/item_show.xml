@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/lungnaha"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="35sp"
+            android:gravity="center"
+            android:text="LUNGNAHA STORY"/>
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:id="@+id/detail_profile_image"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/smile"
+            android:layout_margin="7.5dp"/>
+        <TextView
+            android:id="@+id/detail_profile_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User Name"/>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/detail_image_list"
+        android:scaleType="fitXY"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"/>
+    <TextView
+        android:id="@+id/detail_explain"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10sp"/>
+
+</LinearLayout>
