@@ -15,6 +15,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -30,6 +31,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.evanandroid.apps.photodescription.ui.slideshow.SlideshowFragment
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import java.io.File
@@ -55,11 +58,31 @@ class Main : AppCompatActivity() {
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener {
             view ->
-            Toast.makeText(applicationContext,"폴더 이름 :" + getSaveFolder().absolutePath,Toast.LENGTH_SHORT).show()
+             var userFragment = SlideshowFragment()
+            var bundle = Bundle()
+            var uid = FirebaseAuth.getInstance().currentUser?.uid
+            bundle.putString("destinationUid",uid)
+            userFragment.arguments = bundle
+            supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment,userFragment).commit()
+
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
+
+
+
+
+/*
+        var userFragment = SlideshowFragment()
+        var bundle = Bundle()
+        var uid = FirebaseAuth.getInstance().currentUser?.uid
+        bundle.putString("destinationUid",uid)
+        userFragment.arguments = bundle
+        supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment,userFragment).commit()*/
+
+
+
 
 
 
