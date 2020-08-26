@@ -15,6 +15,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -33,6 +34,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.evanandroid.apps.photodescription.ui.slideshow.SlideshowFragment
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import java.io.File
@@ -40,9 +42,10 @@ import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-class Main : AppCompatActivity() {
+class Main : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+
 
 
 
@@ -58,28 +61,28 @@ class Main : AppCompatActivity() {
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener {
             view ->
-             var userFragment = SlideshowFragment()
-            var bundle = Bundle()
-            var uid = FirebaseAuth.getInstance().currentUser?.uid
-            bundle.putString("destinationUid",uid)
-            userFragment.arguments = bundle
-            supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment,userFragment).commit()
+
 
         }
+        //nav_view.setNavigationItemSelectedListener(this)
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
 
+        /*navView.setNavigationItemSelectedListener(this)*/
 
 
 
-/*
+
         var userFragment = SlideshowFragment()
         var bundle = Bundle()
         var uid = FirebaseAuth.getInstance().currentUser?.uid
         bundle.putString("destinationUid",uid)
         userFragment.arguments = bundle
-        supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment,userFragment).commit()*/
+        //supportFragmentManager.beginTransaction().replace(R.id.account_recyclerview,userFragment).commit()
+
+
+
 
 
 
@@ -97,6 +100,7 @@ class Main : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main_activity2, menu)
@@ -108,7 +112,35 @@ class Main : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.nav_slideshow-> {
+                var userFragment = SlideshowFragment()
+                var bundle = Bundle()
+                var uid = FirebaseAuth.getInstance().currentUser?.uid
+                bundle.putString("destinationUid",uid)
+                supportFragmentManager.beginTransaction().replace(R.id.account_recyclerview,userFragment).commit()
+                return true
+            }
 
+        }
+        return false
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item!!.itemId) {
+            R.id.nav_slideshow-> {
+                var userFragment = SlideshowFragment()
+                var bundle = Bundle()
+                var uid = FirebaseAuth.getInstance().currentUser?.uid
+                bundle.putString("destinationUid",uid)
+                supportFragmentManager.beginTransaction().replace(R.id.account_recyclerview,userFragment).commit()
+                //return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
 
 
@@ -127,6 +159,13 @@ class Main : AppCompatActivity() {
     }
 
 
+    }
 
+
+
+
+
+
+private fun NavigationView.setNavigationItemSelectedListener(main: Main) {
 
 }

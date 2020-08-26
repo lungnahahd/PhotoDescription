@@ -11,6 +11,8 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -20,6 +22,9 @@ import com.evanandroid.apps.photodescription.ui.gallery.GalleryFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.fragment_slideshow.view.*
+import java.nio.BufferUnderflowException
+import com.evanandroid.apps.photodescription.ui.gallery.GalleryFragment.DetailViewRecyclerViewAdapter as DetailViewRecyclerViewAdapter
 
 
 class SlideshowFragment : Fragment() {
@@ -35,13 +40,17 @@ class SlideshowFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         slideshowViewModel =
             ViewModelProviders.of(this).get(SlideshowViewModel::class.java)
-        //val root = inflater.inflate(R.layout.fragment_slideshow, container, false)
+
         fragmentView = LayoutInflater.from(activity).inflate(R.layout.fragment_slideshow,container,false)
         uid = arguments?.getString("destinationUid")
         firestore = FirebaseFirestore.getInstance()
+
         auth = FirebaseAuth.getInstance()
+        fragmentView?.account_recyclerview?.adapter = UserFragementRecyclerViewAdapter()
+        fragmentView?.account_recyclerview?.layoutManager = GridLayoutManager(this.requireActivity(),3)
 
         return fragmentView
     }
@@ -82,7 +91,7 @@ class SlideshowFragment : Fragment() {
           //이미지를 불러오는 부분
             var imageview = (holder as CustomViewHolder).imageview
             Glide.with(holder.itemView.context).load(content[position].imageUrl).apply(RequestOptions().centerCrop()).into(imageview)
-        }
 
+    }
     }
 }
