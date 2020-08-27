@@ -36,6 +36,7 @@ import com.evanandroid.apps.photodescription.ui.slideshow.SlideshowFragment
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_slideshow.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import java.io.File
 import java.io.FileOutputStream
@@ -69,7 +70,11 @@ class Main : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
 
-        /*navView.setNavigationItemSelectedListener(this)*/
+
+     /*   val slide : NavigationView = findViewById(R.id.account_recyclerview)
+        slide.setNavigationItemSelectedListener(this)
+            //.setNavigationItemSelectedListener(this)*/
+
 
 
 
@@ -79,13 +84,7 @@ class Main : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
         var uid = FirebaseAuth.getInstance().currentUser?.uid
         bundle.putString("destinationUid",uid)
         userFragment.arguments = bundle
-        //supportFragmentManager.beginTransaction().replace(R.id.account_recyclerview,userFragment).commit()
-
-
-
-
-
-
+        supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment,userFragment).commit()
 
 
 
@@ -119,8 +118,13 @@ class Main : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
                 var bundle = Bundle()
                 var uid = FirebaseAuth.getInstance().currentUser?.uid
                 bundle.putString("destinationUid",uid)
-                supportFragmentManager.beginTransaction().replace(R.id.account_recyclerview,userFragment).commit()
-                return true
+                userFragment.arguments = bundle
+                supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment,userFragment).commit()
+
+            }
+            R.id.nav_gallery->{
+                Toast.makeText(this,"갤럴니ㅏ런이ㅏㅓㄹㄴ아",Toast.LENGTH_LONG).show()
+
             }
 
         }
@@ -135,7 +139,7 @@ class Main : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListene
                 var bundle = Bundle()
                 var uid = FirebaseAuth.getInstance().currentUser?.uid
                 bundle.putString("destinationUid",uid)
-                supportFragmentManager.beginTransaction().replace(R.id.account_recyclerview,userFragment).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.refrag,userFragment).commit()
                 //return true
             }
         }

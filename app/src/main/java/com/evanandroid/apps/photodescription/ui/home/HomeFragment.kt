@@ -95,6 +95,7 @@ class HomeFragment : Fragment() {
                     openCammera()
                 }
                 readbutton.setOnClickListener {
+
                     openGallery()
                 }
         }
@@ -108,16 +109,17 @@ class HomeFragment : Fragment() {
         val gal : Button = root.findViewById(R.id.buttonGallery)
         val upb : Button = root. findViewById(R.id.uploadBut)
         cam.setOnClickListener {
+            Toast.makeText(context,"카메라로 이동합니다.",Toast.LENGTH_LONG).show()
             openCammera()
-
         }
         gal.setOnClickListener {
+            Toast.makeText(context,"갤러리로 이동합니다.",Toast.LENGTH_LONG).show()
             openGallery()
         }
 
         upb.setOnClickListener {
             upLoad()
-
+            Toast.makeText(context,"업로드가 완료되었습니다. 스토리를 확인해주세요.",Toast.LENGTH_LONG).show()
         }
         return root
     }
@@ -152,24 +154,7 @@ class HomeFragment : Fragment() {
 
 
 
-        /*storageRef?.putFile(photoUri!!)?.addOnCanceledListener {
-            storageRef.downloadUrl.addOnSuccessListener { uri ->
-                //업로드 성공시 데이터를 넘겨 받는 코드
-                var content = ContentList()
-                content.imageUrl = uri.toString()
-                //현재 uid를 받는 코드
-                content.uid = auth?.currentUser?.uid
-                //userId를 받아오는 코드
-                content.userId = auth?.currentUser?.email
-                //설명을 넣어주는 코드
-                content.explation = editDes.text.toString()
-                //시간을 받아오는 코드
-                content.time = System.currentTimeMillis()
 
-                firestore?.collection("images")?.document()?.set(content)
-
-            }
-        }*/
     }
 
     //권한 확인 함수

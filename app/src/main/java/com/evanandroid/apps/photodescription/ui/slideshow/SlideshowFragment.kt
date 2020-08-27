@@ -19,6 +19,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.evanandroid.apps.photodescription.R
 import com.evanandroid.apps.photodescription.ui.gallery.ContentList
 import com.evanandroid.apps.photodescription.ui.gallery.GalleryFragment
+import com.google.android.gms.dynamic.SupportFragmentWrapper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -41,19 +42,23 @@ class SlideshowFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        //inflater.inflate(R.layout.fragment_home, container, false)
+
         slideshowViewModel =
             ViewModelProviders.of(this).get(SlideshowViewModel::class.java)
 
-        fragmentView = LayoutInflater.from(activity).inflate(R.layout.fragment_slideshow,container,false)
+        fragmentView = inflater.inflate(R.layout.fragment_slideshow,container,false)
+        //fragmentView = LayoutInflater.from(activity).inflate(R.layout.fragment_slideshow,container,false)
         uid = arguments?.getString("destinationUid")
         firestore = FirebaseFirestore.getInstance()
 
         auth = FirebaseAuth.getInstance()
         fragmentView?.account_recyclerview?.adapter = UserFragementRecyclerViewAdapter()
-        fragmentView?.account_recyclerview?.layoutManager = GridLayoutManager(this.requireActivity(),3)
+        fragmentView?.account_recyclerview?.layoutManager = GridLayoutManager(activity,3)
 
         return fragmentView
     }
+
 
     inner class UserFragementRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         var content : ArrayList<ContentList> = arrayListOf()
@@ -66,7 +71,8 @@ class SlideshowFragment : Fragment() {
                 for (snapshot in querySnapshot.documents){
                     content.add(snapshot.toObject(ContentList::class.java)!!)
                 }
-                notifyDataSetChanged()
+
+                //notifyDataSetChanged()
             }
 
         }
